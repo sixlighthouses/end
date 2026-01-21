@@ -1,0 +1,26 @@
+<% content_for :title, "Edit Todo" %>
+
+<div class="flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-6">
+  <div class="max-w-2xl w-full mx-auto px-6">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-slate-900 mb-2">Edit Todo</h1>
+      <p class="text-slate-600">Update your todo details</p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-8">
+      <%= render "form", todo: @todo %>
+
+      <!-- Action Links -->
+      <div class="mt-6 pt-6 border-t border-slate-200 space-y-3">
+        <div class="flex justify-center space-x-6">
+          <%= link_to "View Todo", @todo, 
+                class: "text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-colors" %>
+          <%= link_to "← Back to Todos", todos_path, 
+                class: "text-slate-600 hover:text-slate-700 font-medium text-sm transition-colors" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

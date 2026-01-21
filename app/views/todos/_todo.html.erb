@@ -1,0 +1,23 @@
+<div id="<%= dom_id todo %>" class="w-full sm:w-auto my-5 space-y-5">
+  <div>
+    <strong class="block font-medium mb-1">Name:</strong>
+    <%= todo.name %>
+  </div>
+  <div>
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= todo.description %>
+  </div>
+  <% if todo.due_date.present? %>
+    <div>
+      <strong class="block font-medium mb-1">Due Date:</strong>
+      <div class="flex items-center">
+        <%= todo.due_date.strftime("%B %d, %Y") %>
+        <% if todo.overdue? %>
+          <span class="ml-2 px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">Overdue</span>
+        <% elsif todo.due_soon? %>
+          <span class="ml-2 px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">Due Soon</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

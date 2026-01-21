@@ -1,0 +1,67 @@
+
+<div class="flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+  <div class="max-w-4xl mx-auto px-6 py-12 text-center">
+    <!-- App Logo/Name -->
+    <div class="mb-8">
+      <h1 class="text-6xl font-bold text-slate-900 mb-2">end.</h1>
+      <div class="w-24 h-1 bg-indigo-600 mx-auto rounded-full"></div>
+    </div>
+
+    <!-- Hero Description -->
+    <div class="space-y-6 mb-12">
+      <h2 class="text-2xl font-light text-slate-700 max-w-2xl mx-auto">
+        A note-taking and todo system for technical professionals who value simplicity
+      </h2>
+      
+      <p class="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+        Streamline your workflow with an elegant interface designed for developers, engineers, and tech professionals. 
+        Capture ideas, manage tasks, and stay organized without the complexity.
+      </p>
+    </div>
+
+    <!-- Key Features -->
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-slate-900 mb-2">Smart Notes</h3>
+        <p class="text-slate-600 text-sm">Capture and organize your thoughts with markdown support and instant search</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-slate-900 mb-2">Task Management</h3>
+        <p class="text-slate-600 text-sm">Simple, powerful todo lists with priority tracking and deadline reminders</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-slate-900 mb-2">Minimal Design</h3>
+        <p class="text-slate-600 text-sm">Clean, distraction-free interface that focuses on what matters most</p>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="space-y-4">
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= link_to "Get Started", signup_path, class: "inline-flex items-center px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-lg" %>
+        <%= link_to "Learn More", about_path, class: "inline-flex items-center px-8 py-3 bg-white text-slate-700 font-medium rounded-lg border border-slate-300 hover:bg-slate-50 transition-colors" %>
+      </div>
+      
+      <p class="text-sm text-slate-500">
+        Built for technical professionals • Free to use • No credit card required
+      </p>
+    </div>
+  </div>
+</div>

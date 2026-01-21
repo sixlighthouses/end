@@ -1,0 +1,26 @@
+<% content_for :title, "New Note" %>
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-6">
+  <div class="max-w-4xl w-full mx-auto px-6">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-slate-900 mb-2">Create New Note</h1>
+      <p class="text-slate-600">Add a note to: <%= @todo.name %></p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-8">
+      <%= form_with(model: [@todo, @note], local: true) do |f| %>
+        <%= render "form", note: @note, todo: @todo, f: f %>
+      <% end %>
+
+      <!-- Back Link -->
+      <div class="mt-6 pt-6 border-t border-slate-200">
+        <div class="text-center">
+          <%= link_to "← Back to Todo", @todo, 
+                class: "text-slate-600 hover:text-slate-700 font-medium text-sm transition-colors inline-flex items-center" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
