@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   resources :users, only: [ :new, :create ]
   resource :session
   resources :passwords, param: :token
+  resources :notes do
+    resources :todos, except: [ :index ]
+  end
   resources :todos do
     patch :update_positions, on: :collection
     resources :notes, except: [ :index ]

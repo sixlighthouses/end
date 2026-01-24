@@ -1,6 +1,11 @@
 class NotesController < ApplicationController
-  before_action :set_todo
+  before_action :set_todo, except: [ :index ]
   before_action :set_note, only: [ :show, :edit, :update, :destroy ]
+
+  # GET /notes - Show all notes from all todos
+  def index
+    @notes = Note.includes(:todo).order(created_at: :desc)
+  end
 
   # GET /todos/:todo_id/notes/new
   def new
@@ -54,9 +59,16 @@ class NotesController < ApplicationController
 
   private
 
-  def set_todo
-    @todo = Todo.find(params[:todo_id])
+def set_todo
+    @todo = Todo.find(params[:todo_id]) if params[:todo_id].present?
+  rescue ActiveRecord::RecordNotFound
+    redirect_to todos_path, alert: "Todo not found."
+    false
   end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to todos_path, alert: "Todo not found."
+    false
+end
 
   def set_note
     @note = @todo.notes.find(params[:id])
@@ -65,4 +77,3 @@ class NotesController < ApplicationController
   def note_params
     params.require(:note).permit(:title, :body)
   end
-end

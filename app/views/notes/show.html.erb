@@ -13,8 +13,8 @@
 
     <!-- Note Content -->
     <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-8 mb-6">
-      <div class="prose prose-slate max-w-none">
-        <%== marksmithed @note.body %>
+      <div class="markdown-content max-w-none">
+        <%== render_markdown(@note.body) %>
       </div>
     </div>
 
