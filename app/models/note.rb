@@ -1,5 +1,5 @@
 class Note < ApplicationRecord
-  belongs_to :todo
+  belongs_to :todo, optional: true
 
   validates :title, presence: true, length: { maximum: 255 }
   validates :body, presence: true

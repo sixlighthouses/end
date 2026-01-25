@@ -9,12 +9,22 @@ class NotesController < ApplicationController
 
   # GET /todos/:todo_id/notes/new
   def new
+    # check that @todo is set and if not create a standalone note (not linked to a todo)
+    # this is handled in set_todo
+    if @todo.nil?
+      @note = Note.new
+      return
+    end
     @note = @todo.notes.build
   end
 
   # POST /todos/:todo_id/notes
   def create
-    @note = @todo.notes.build(note_params)
+    if @todo.nil?
+      @note = Note.new(note_params)
+    else
+      @note = @todo.notes.build(note_params)
+    end
 
     respond_to do |format|
       if @note.save
@@ -59,21 +69,22 @@ class NotesController < ApplicationController
 
   private
 
-def set_todo
+  def set_todo
     @todo = Todo.find(params[:todo_id]) if params[:todo_id].present?
   rescue ActiveRecord::RecordNotFound
     redirect_to todos_path, alert: "Todo not found."
     false
   end
-  rescue ActiveRecord::RecordNotFound
-    redirect_to todos_path, alert: "Todo not found."
-    false
-end
 
   def set_note
+    if @todo.nil?
+      @note = Note.find(params[:id])
+      return
+    end
     @note = @todo.notes.find(params[:id])
   end
 
   def note_params
     params.require(:note).permit(:title, :body)
   end
+end

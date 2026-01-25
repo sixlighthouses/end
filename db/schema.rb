@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_19_233621) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_25_043333) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_19_233621) do
     t.text "body"
     t.datetime "created_at", null: false
     t.string "title"
-    t.integer "todo_id", null: false
+    t.integer "todo_id"
     t.datetime "updated_at", null: false
     t.index ["todo_id"], name: "index_notes_on_todo_id"
   end
