@@ -9,22 +9,20 @@ class NotesController < ApplicationController
 
   # GET /todos/:todo_id/notes/new
   def new
-    # check that @todo is set and if not create a standalone note (not linked to a todo)
-    # this is handled in set_todo
     if @todo.nil?
       @note = Note.new
-      return
+    else
+      @note = @todo.notes.build
     end
-    @note = @todo.notes.build
   end
 
   # POST /todos/:todo_id/notes
   def create
-    if @todo.nil?
-      @note = Note.new(note_params)
-    else
-      @note = @todo.notes.build(note_params)
-    end
+     if @todo.nil?
+     @note =  Note.new(note_params)
+     else
+      @todo.notes.build(note_params)
+     end
 
     respond_to do |format|
       if @note.save
