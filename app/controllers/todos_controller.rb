@@ -8,6 +8,7 @@ class TodosController < ApplicationController
     @todos = Todo.all
     @sort = params[:sort] || "position"
     @direction = params[:direction] || "asc"
+    @todo = Todo.new
 
     # Debug output
     Rails.logger.debug "Sort: #{@sort}, Direction: #{@direction}"
@@ -15,12 +16,12 @@ class TodosController < ApplicationController
     # Only allow safe values for direction
     safe_direction = %w[asc desc].include?(@direction) ? @direction : "asc"
 
-case @sort
-when "due_date"
+    case @sort
+    when "due_date"
       @todos = @todos.order(Arel.sql("due_date #{safe_direction} NULLS LAST"))
-else
+    else
       @todos = @todos.order(:position)
-end
+    end
   end
 
   # GET /todos/1 or /todos/1.json
@@ -77,7 +78,7 @@ end
     end
   end
 
-def update_positions
+  def update_positions
     positions = params[:positions]
 
     # Parse JSON if it's a string
@@ -102,13 +103,14 @@ def update_positions
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_todo
-      @todo = Todo.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def todo_params
-      params.expect(todo: [ :name, :description, :position, :due_date ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_todo
+    @todo = Todo.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def todo_params
+    params.expect(todo: [ :name, :description, :position, :due_date, :completed ])
+  end
 end

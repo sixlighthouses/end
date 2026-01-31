@@ -25,12 +25,14 @@ class NotesController < ApplicationController
      end
 
     respond_to do |format|
-      if @note.save
-        format.html { redirect_to [ @todo, @note ], notice: "Note was successfully created." }
-        format.json { render :show, status: :created, location: [ @todo, @note ] }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @note.errors, status: :unprocessable_entity }
+      if not @note.nil?
+        if @note.save
+          format.html { redirect_to [ @todo, @note ], notice: "Note was successfully created." }
+          format.json { render :show, status: :created, location: [ @todo, @note ] }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @note.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

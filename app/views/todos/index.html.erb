@@ -23,6 +23,8 @@
       <%= link_to "New todo", new_todo_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
     </div>
   </div>
+  
+  <%= render "form", todo: @todo %>
 
   
 
@@ -57,16 +59,26 @@
               <% end %>
             </div>
             
-            <!-- Todo Content -->
-            <div class="space-y-3">
-              <!-- Title and Status -->
-              <div class="flex items-start justify-between">
-                <div class="flex-1 min-w-0">
-                  <h3 class="text-base font-semibold text-gray-900 break-words"><%= todo.name %></h3>
-                </div>
-              </div>
-              
-              <!-- Description -->
+<!-- Todo Content -->
+             <div class="space-y-3">
+               <!-- Completion Status -->
+               <div class="flex items-center space-x-2">
+                 <%= check_box_tag "todo_completed_#{todo.id}", 
+                       todo.completed?, 
+                       todo.completed?, 
+                       class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2",
+                       data: { 
+                         controller: "todo-completion",
+                         action: "change->todo-completion#toggle",
+                         todo_id: todo.id,
+                         url: todo_path(todo)
+                       } %>
+                 <span class="text-sm font-medium <%= todo.completed? ? 'text-green-600' : 'text-gray-600' %>">
+                   <%= todo.completed? ? "Completed" : "Pending" %>
+                 </span>
+               </div>
+               
+               <!-- Description -->
               <% if todo.description.present? %>
                 <p class="text-sm text-gray-600 line-clamp-3"><%= todo.description %></p>
               <% end %>
@@ -148,8 +160,9 @@
           <thead class="bg-gray-50">
             <tr>
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12"></th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Name</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/5">Description</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/5">Status</th>
+               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/5">Description</th>
+ 
               <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">
                 <%= link_to todos_path(sort: 'due_date', direction: (@sort == 'due_date' && @direction == 'asc') ? 'desc' : 'asc'), 
                       class: "flex items-center hover:text-gray-700 transition-colors" do %>
@@ -191,27 +204,43 @@
                       </svg>
                     </div>
                   </td>
+                   <td class="px-4 py-3">
+                     <div class="flex items-center space-x-2">
+                       <%= check_box_tag "todo_completed_#{todo.id}", 
+                             todo.completed?, 
+                             todo.completed?, 
+                             class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2",
+                             data: { 
+                               controller: "todo-completion",
+                               action: "change->todo-completion#toggle",
+                               todo_id: todo.id,
+                               url: todo_path(todo)
+                             } %>
+                       <%# <span class="text-sm text-gray-600">
+                         <%= todo.completed? ? "Completed" : "Pending" %>
+                       <%# </span> %>
+                     </div>
+                   </td>
+                   <td class="px-4 py-3">
+                     <div class="text-sm text-gray-600 line-clamp-2" title="<%= todo.description %>">
+                       <%= todo.description.present? ? todo.description : "<span class='text-gray-400 italic'>No description</span>".html_safe %>
+                     </div>
+                   </td>
                   <td class="px-4 py-3">
-                    <div class="text-sm font-medium text-gray-900 truncate" title="<%= todo.name %>"><%= todo.name %></div>
-                  </td>
-                  <td class="px-4 py-3">
-                    <div class="text-sm text-gray-600 line-clamp-2" title="<%= todo.description %>"><%= todo.description %></div>
-                  </td>
-                  <td class="px-4 py-3">
-                    <% if todo.due_date.present? %>
-                      <div class="flex items-center">
-                        <%= todo.due_date.strftime("%b %d, %Y") %>
-                        <% if todo.overdue? %>
-                          <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-red-100 text-red-800 rounded">Overdue</span>
-                        <% elsif todo.due_soon? %>
-                          <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">Due Soon</span>
-                        <% end %>
-                      </div>
-                    <% else %>
-                      <div class="text-sm text-gray-400 italic">No due date</div>
-                    <% end %>
-                  </td>
-                  <td class="px-4 py-3 text-right">
+                     <% if todo.due_date.present? %>
+                       <div class="flex items-center">
+                         <%= todo.due_date.strftime("%b %d, %Y") %>
+                         <% if todo.overdue? %>
+                           <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-red-100 text-red-800 rounded">Overdue</span>
+                         <% elsif todo.due_soon? %>
+                           <span class="ml-2 px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">Due Soon</span>
+                         <% end %>
+                       </div>
+                     <% else %>
+                       <div class="text-sm text-gray-400 italic">No due date</div>
+                     <% end %>
+                   </td>
+                   <td class="px-4 py-3 text-right">
                   <div class="flex items-center justify-end space-x-1">
                         <!-- Notes Icon -->
                         <% if todo.notes.any? %>
