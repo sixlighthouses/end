@@ -1,0 +1,21 @@
+<%# This partial is used to reset the accordion to empty state %>
+<div id="new-todo-accordion" class="hidden mb-6">
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-gray-900">Create New Todo</h2>
+        <button 
+          data-controller="accordion-toggle"
+          data-action="click->accordion-toggle#toggle"
+          data-target="#new-todo-accordion"
+          class="text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <%= render "form_index", todo: Todo.new %>
+    </div>
+  </div>
+</div>

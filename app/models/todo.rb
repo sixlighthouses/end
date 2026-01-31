@@ -2,7 +2,7 @@ class Todo < ApplicationRecord
   has_many :notes, dependent: :destroy
 
   validates :position, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :due_date, comparison: { greater_than_or_equal_to: Date.current, message: "can't be in the past" }, allow_nil: true
+  # validates :due_date, comparison: { greater_than_or_equal_to: Date.current, message: "can't be in the past" }, allow_nil: true
   scope :completed, -> { where(completed: true) }
   scope :incomplete, -> { where(completed: false) }
 

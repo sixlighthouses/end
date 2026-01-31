@@ -1,6 +1,6 @@
 class TodosController < ApplicationController
-  allow_unauthenticated_access only: [ :index, :show, :update_positions, :new, :edit, :destroy ]
-  skip_before_action :verify_authenticity_token, only: [ :update_positions ]
+  allow_unauthenticated_access only: [:index, :show, :update_positions, :new, :edit, :destroy]
+  skip_before_action :verify_authenticity_token, only: [:update_positions]
   before_action :set_todo, only: %i[ show edit update destroy ]
 
   # GET /todos or /todos.json
@@ -20,7 +20,7 @@ class TodosController < ApplicationController
     when "due_date"
       @todos = @todos.order(Arel.sql("due_date #{safe_direction} NULLS LAST"))
     else
-      @todos = @todos.order(:position)
+      @todos = @todos.order(position: :desc)
     end
   end
 
@@ -48,9 +48,20 @@ class TodosController < ApplicationController
       if @todo.save
         format.html { redirect_to @todo, notice: "Todo was successfully created." }
         format.json { render :show, status: :created, location: @todo }
+        format.turbo_stream {
+          render turbo_stream: [
+            turbo_stream.append("notices", partial: "shared/notice", locals: { notice: "Todo was successfully created." }),
+            turbo_stream.replace("new-todo-accordion", partial: "todos/empty_form"),
+            turbo_stream.replace("mobile-todos-container", partial: "todos/mobile_list", locals: { todos: Todo.all }),
+            turbo_stream.replace("desktop-todos-container", partial: "todos/desktop_list", locals: { todos: Todo.all }),
+          ]
+        }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @todo.errors, status: :unprocessable_entity }
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.replace("new-todo-accordion", partial: "todos/form_index", locals: { todo: @todo })
+        }
       end
     end
   end
@@ -111,6 +122,6 @@ class TodosController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def todo_params
-    params.expect(todo: [ :name, :description, :position, :due_date, :completed ])
+    params.expect(todo: [:description, :position, :due_date, :completed])
   end
 end

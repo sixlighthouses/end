@@ -1,0 +1,44 @@
+<div class="bg-white shadow-sm rounded-lg overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <tbody
+        id="todos"
+        class="bg-white divide-y divide-gray-200"
+        data-controller="sortable"
+        data-sortable-dragging-class="dragging"
+      >
+        <% if todos.any? %>
+          <% todos.each do |todo| %>
+            <%= render todo %>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="5" class="px-6 py-12 text-center">
+              <div class="text-gray-500">
+                <svg
+                  class="mx-auto h-12 w-12 text-gray-400 mb-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  ></path>
+                </svg>
+
+                <p class="text-sm font-medium">No todos found</p>
+
+                <p class="text-xs mt-1">
+                  Get started by creating your first todo.
+                </p>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
