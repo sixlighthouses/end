@@ -9,10 +9,7 @@ export default class extends Controller {
     const url = checkbox.dataset.url
     const completed = checkbox.checked
     
-    // Update the status text immediately for better UX
-    this.updateStatusText(checkbox, completed)
-    
-    // Send the update to the server
+    // Send the update to the server (don't update UI immediately, let turbo stream handle it)
     this.updateServer(url, completed, checkbox)
   }
 
@@ -40,7 +37,7 @@ export default class extends Controller {
       method: 'PATCH',
       body: formData,
       headers: {
-        'Accept': 'application/json',
+        'Accept': 'text/vnd.turbo-stream.html',
         'X-CSRF-Token': this.getCSRFToken()
       }
     })
@@ -48,10 +45,11 @@ export default class extends Controller {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
-      return response.json()
+      return response.text()
     })
-    .then(data => {
-      console.log('Todo completion updated successfully')
+    .then(html => {
+      // Process the Turbo Stream
+      Turbo.renderStreamMessage(html)
       this.showNotification('Todo status updated successfully!', 'success')
     })
     .catch(error => {

@@ -1,9 +1,9 @@
 <%# Mobile Card View %>
 <div
-  class="p-4 bg-white hover:bg-gray-50 transition-colors md:hidden"
+  class="p-4 <%= todo.completed? ? 'bg-gray-50 opacity-75' : 'bg-white' %> hover:bg-gray-50 transition-colors md:hidden"
   data-sortable-target="item"
   data-todo-id="<%= todo.id %>"
-  draggable="true"
+  draggable="<%= !todo.completed? %>"
   data-action="dragstart->sortable#dragstart dragend->sortable#dragend dragover->sortable#dragover drop->sortable#drop touchstart->sortable#touchstart touchmove->sortable#touchmove touchend->sortable#touchend"
 >
   <!-- Drag Handle for Mobile -->
@@ -71,7 +71,7 @@
 
     <!-- Description -->
     <% if todo.description.present? %>
-      <p class="text-sm text-gray-600 line-clamp-3">
+      <p class="text-sm <%= todo.completed? ? 'text-gray-400 line-through' : 'text-gray-600' %> line-clamp-3">
         <%= todo.description %>
       </p>
     <% end %>
@@ -205,10 +205,10 @@
 
 <%# Desktop Table View %>
 <tr
-  class="hover:bg-gray-50 transition-colors cursor-move hidden md:table-row"
+  class="<%= todo.completed? ? 'bg-gray-50 opacity-75' : '' %> hover:bg-gray-50 transition-colors <%= todo.completed? ? '' : 'cursor-move' %> hidden md:table-row"
   data-sortable-target="item"
   data-todo-id="<%= todo.id %>"
-  draggable="true"
+  draggable="<%= !todo.completed? %>"
   data-action="dragstart->sortable#dragstart dragend->sortable#dragend dragover->sortable#dragover drop->sortable#drop"
 >
   <td class="px-4 py-3 text-center">
@@ -246,7 +246,7 @@
 
   <td class="px-4 py-3">
     <div
-      class="text-sm text-gray-600 line-clamp-2"
+      class="text-sm <%= todo.completed? ? 'text-gray-400 line-through' : 'text-gray-600' %> line-clamp-2"
       title="<%= todo.description %>"
     >
       <%= todo.description.present? ? todo.description : "<span class='text-gray-400 italic'>No description</span>".html_safe %>

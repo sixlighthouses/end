@@ -1,6 +1,6 @@
 class TodosController < ApplicationController
-  allow_unauthenticated_access only: [:index, :show, :update_positions, :new, :edit, :destroy]
-  skip_before_action :verify_authenticity_token, only: [:update_positions]
+  allow_unauthenticated_access only: [ :index, :show, :update_positions, :new, :edit, :destroy ]
+  skip_before_action :verify_authenticity_token, only: [ :update_positions ]
   before_action :set_todo, only: %i[ show edit update destroy ]
 
   # GET /todos or /todos.json
@@ -20,8 +20,12 @@ class TodosController < ApplicationController
     when "due_date"
       @todos = @todos.order(Arel.sql("due_date #{safe_direction} NULLS LAST"))
     else
-      @todos = @todos.order(position: :desc)
+      @todos = @todos.order(created_at: :desc)
     end
+
+    # Separate incomplete and completed todos
+    @incomplete_todos = @todos.incomplete
+    @completed_todos = @todos.completed
   end
 
   # GET /todos/1 or /todos/1.json
@@ -48,13 +52,22 @@ class TodosController < ApplicationController
       if @todo.save
         format.html { redirect_to @todo, notice: "Todo was successfully created." }
         format.json { render :show, status: :created, location: @todo }
-        format.turbo_stream {
-          render turbo_stream: [
+format.turbo_stream {
+          streams = [
             turbo_stream.append("notices", partial: "shared/notice", locals: { notice: "Todo was successfully created." }),
             turbo_stream.replace("new-todo-accordion", partial: "todos/empty_form"),
-            turbo_stream.replace("mobile-todos-container", partial: "todos/mobile_list", locals: { todos: Todo.all }),
-            turbo_stream.replace("desktop-todos-container", partial: "todos/desktop_list", locals: { todos: Todo.all }),
+            turbo_stream.replace("mobile-todos-container", partial: "todos/active_list", locals: { todos: Todo.incomplete.order(created_at: :desc) }),
+            turbo_stream.replace("desktop-todos-container", partial: "todos/active_desktop_list", locals: { todos: Todo.incomplete.order(created_at: :desc) })
           ]
+
+          # Handle completed todos section
+          if Todo.completed.any?
+            streams << turbo_stream.replace("completed-todos-section", partial: "todos/completed_section", locals: { completed_todos: Todo.completed.order(created_at: :desc) })
+          else
+            streams << turbo_stream.replace("completed-todos-section", "")
+          end
+
+          render turbo_stream: streams
         }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -72,6 +85,27 @@ class TodosController < ApplicationController
       if @todo.update(todo_params)
         format.html { redirect_to @todo, notice: "Todo was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @todo }
+format.turbo_stream {
+          incomplete_todos = Todo.incomplete.order(created_at: :desc)
+          completed_todos = Todo.completed.order(created_at: :desc)
+
+          Rails.logger.debug "Incomplete todos count: #{incomplete_todos.count}"
+          Rails.logger.debug "Completed todos count: #{completed_todos.count}"
+
+          streams = [
+            turbo_stream.replace("mobile-todos-container", partial: "todos/active_list", locals: { todos: incomplete_todos }),
+            turbo_stream.replace("desktop-todos-container", partial: "todos/active_desktop_list", locals: { todos: incomplete_todos })
+          ]
+
+          # Handle completed todos section
+          if completed_todos.any?
+            streams << turbo_stream.replace("completed-todos-section", partial: "todos/completed_section", locals: { completed_todos: completed_todos })
+          else
+            streams << turbo_stream.replace("completed-todos-section", "")
+          end
+
+          render turbo_stream: streams
+        }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @todo.errors, status: :unprocessable_entity }
@@ -122,6 +156,6 @@ class TodosController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def todo_params
-    params.expect(todo: [:description, :position, :due_date, :completed])
+    params.expect(todo: [ :description, :position, :due_date, :completed ])
   end
 end

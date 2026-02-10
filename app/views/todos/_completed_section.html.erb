@@ -1,0 +1,23 @@
+<% if completed_todos.any? %>
+  <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+    <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+    </svg>
+    Completed Todos
+    <span class="ml-2 px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+      <%= completed_todos.count %>
+    </span>
+  </h2>
+  
+  <!-- Mobile View -->
+  <div class="block md:hidden" id="mobile-completed-todos-container">
+    <%= render "mobile_list", todos: completed_todos %>
+  </div>
+  
+  <!-- Desktop View -->
+  <div class="hidden md:block" id="desktop-completed-todos-container">
+    <%= render "desktop_list", todos: completed_todos %>
+  </div>
+<% else %>
+  <!-- Empty state - this will be replaced by the controller when needed -->
+<% end %>
