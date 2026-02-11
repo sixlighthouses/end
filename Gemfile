@@ -75,5 +75,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "marksmith", "~> 0.4.7"
+gem "marksmith", "~> 0.4.8"
 gem "commonmarker", "~> 2.6"
