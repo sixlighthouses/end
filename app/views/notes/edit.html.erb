@@ -1,11 +1,15 @@
 <% content_for :title, "Edit Note" %>
 
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-6">
+<div
+  class="
+    min-h-screen flex items-center justify-center bg-gradient-to-br
+    from-slate-50 to-slate-100 py-6
+  "
+>
   <div class="max-w-4xl w-full mx-auto px-6">
     <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-slate-900 mb-2">Edit Note</h1>
-      <p class="text-slate-600">Update note for: <%= @todo.name %></p>
     </div>
 
     <!-- Form Container -->
@@ -13,11 +17,13 @@
       <%= form_with(model: [@todo, @note], local: true) do |f| %>
         <%= render "form", note: @note, todo: @todo, f: f %>
       <% end %>
+
       <!-- Action Links -->
       <div class="mt-6 pt-6 border-t border-slate-200 space-y-3">
         <div class="flex justify-center space-x-6">
           <%= link_to "View Note", [@todo, @note], 
                 class: "text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-colors" %>
+
           <%= link_to "← Back to Todo", @todo, 
                 class: "text-slate-600 hover:text-slate-700 font-medium text-sm transition-colors" %>
         </div>

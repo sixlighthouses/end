@@ -1,15 +1,16 @@
 <% content_for :title, "New Note" %>
 
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-6">
+<div
+  class="
+    min-h-screen flex items-center justify-center bg-linear-to-br
+    from-slate-50 to-slate-100 py-6
+  "
+>
   <div class="max-w-4xl w-full mx-auto px-6">
     <!-- Header -->
     <div class="text-center mb-8">
       <h1 class="text-4xl font-bold text-slate-900 mb-2">Create New Note</h1>
-      <% if @todo.nil? %>
       <p class="text-slate-600">Add a new note</p>
-      <% else %>
-      <p class="text-slate-600">Add a note to: <%= @todo.name %></p>
-      <% end %>
     </div>
 
     <!-- Form Container -->
@@ -22,10 +23,10 @@
       <div class="mt-6 pt-6 border-t border-slate-200">
         <div class="text-center">
           <% if @todo.nil? %>
-          <%= link_to "← Back to Notes", notes_path, 
+            <%= link_to "← Back to Notes", notes_path, 
                 class: "text-slate-600 hover:text-slate-700 font-medium text-sm transition-colors inline-flex items-center" %>
           <% else %>
-          <%= link_to "← Back to Todo", @todo, 
+            <%= link_to "← Back to Todo", @todo, 
                 class: "text-slate-600 hover:text-slate-700 font-medium text-sm transition-colors inline-flex items-center" %>
           <% end %>
         </div>
