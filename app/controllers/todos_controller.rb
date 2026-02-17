@@ -58,8 +58,7 @@ format.turbo_stream {
           streams = [
             turbo_stream.append("notices", partial: "shared/notice", locals: { notice: "Todo was successfully created." }),
             turbo_stream.replace("new-todo-accordion", partial: "todos/empty_form"),
-            turbo_stream.replace("mobile-todos-container", partial: "todos/active_list", locals: { todos: Todo.incomplete.order(created_at: :desc) }),
-            turbo_stream.replace("desktop-todos-container", partial: "todos/active_desktop_list", locals: { todos: Todo.incomplete.order(created_at: :desc) })
+            turbo_stream.replace("active-todos-container", partial: "todos/todos_list", locals: { todos: Todo.incomplete.order(created_at: :desc) })
           ]
 
           # Handle completed todos section
@@ -95,8 +94,7 @@ format.turbo_stream {
           Rails.logger.debug "Completed todos count: #{completed_todos.count}"
 
           streams = [
-            turbo_stream.replace("mobile-todos-container", partial: "todos/active_list", locals: { todos: incomplete_todos }),
-            turbo_stream.replace("desktop-todos-container", partial: "todos/active_desktop_list", locals: { todos: incomplete_todos })
+            turbo_stream.replace("active-todos-container", partial: "todos/todos_list", locals: { todos: incomplete_todos })
           ]
 
           # Handle completed todos section

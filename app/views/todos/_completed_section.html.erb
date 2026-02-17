@@ -20,17 +20,9 @@
     </button>
     
     <div class="hidden mt-4" data-accordion-toggle-target="content">
-      <!-- Mobile View -->
-      <div class="block md:hidden" id="mobile-completed-todos-container">
-        <%= render "mobile_list", todos: completed_todos %>
-      </div>
-      
-      <!-- Desktop View -->
-      <div class="hidden md:block" id="desktop-completed-todos-container">
-        <%= render "desktop_list", todos: completed_todos %>
+      <div id="completed-todos-list" class="bg-white shadow-sm rounded-lg overflow-hidden">
+        <%= render "todos_list", todos: completed_todos %>
       </div>
     </div>
   </div>
-<% else %>
-  <!-- Empty state - this will be replaced by the controller when needed -->
 <% end %>

@@ -92,7 +92,7 @@
     </div>
   </div>
 
-  <!-- Incomplete Todos Section -->
+  <!-- Active Todos Section -->
   <div class="mb-8">
     <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
       <svg
@@ -119,9 +119,8 @@
       </span>
     </h2>
 
-    <!-- Desktop View -->
-    <div id="desktop-todos-container">
-      <%= render "active_desktop_list", todos: @incomplete_todos %>
+    <div id="active-todos-container" class="bg-white shadow-sm rounded-lg overflow-hidden">
+      <%= render "todos_list", todos: @incomplete_todos %>
     </div>
   </div>
 

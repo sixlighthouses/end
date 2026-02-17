@@ -4,7 +4,7 @@ class Todo < ApplicationRecord
   validates :position, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   # validates :due_date, comparison: { greater_than_or_equal_to: Date.current, message: "can't be in the past" }, allow_nil: true
   scope :completed, -> { where(completed: true) }
-  scope :incomplete, -> { where(completed: false) }
+  scope :incomplete, -> { where(completed: [ false, nil ]) }
 
   # Add methods
   def mark_completed!
@@ -16,7 +16,7 @@ class Todo < ApplicationRecord
   end
 
   def completed?
-    completed
+    completed == true
   end
 
   def due_soon?
