@@ -17,6 +17,8 @@ class TodosController < ApplicationController
     safe_direction = %w[asc desc].include?(@direction) ? @direction : "asc"
 
     case @sort
+    when "position"
+      @todos = @todos.order(position: safe_direction.to_sym)
     when "due_date"
       @todos = @todos.order(Arel.sql("due_date #{safe_direction} NULLS LAST"))
     else

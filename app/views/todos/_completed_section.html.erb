@@ -1,22 +1,35 @@
 <% if completed_todos.any? %>
-  <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-    <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-    </svg>
-    Completed Todos
-    <span class="ml-2 px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-      <%= completed_todos.count %>
-    </span>
-  </h2>
-  
-  <!-- Mobile View -->
-  <div class="block md:hidden" id="mobile-completed-todos-container">
-    <%= render "mobile_list", todos: completed_todos %>
-  </div>
-  
-  <!-- Desktop View -->
-  <div class="hidden md:block" id="desktop-completed-todos-container">
-    <%= render "desktop_list", todos: completed_todos %>
+  <div class="mt-8 border-t border-gray-200 pt-4" data-controller="accordion-toggle" data-target="[data-accordion-toggle-target='content']">
+    <button
+      type="button"
+      class="w-full flex items-center justify-between py-3 px-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+      data-action="click->accordion-toggle#toggle"
+    >
+      <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+        <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Completed Todos
+        <span class="ml-2 px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+          <%= completed_todos.count %>
+        </span>
+      </h2>
+      <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" data-accordion-toggle-target="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
+    
+    <div class="hidden mt-4" data-accordion-toggle-target="content">
+      <!-- Mobile View -->
+      <div class="block md:hidden" id="mobile-completed-todos-container">
+        <%= render "mobile_list", todos: completed_todos %>
+      </div>
+      
+      <!-- Desktop View -->
+      <div class="hidden md:block" id="desktop-completed-todos-container">
+        <%= render "desktop_list", todos: completed_todos %>
+      </div>
+    </div>
   </div>
 <% else %>
   <!-- Empty state - this will be replaced by the controller when needed -->
