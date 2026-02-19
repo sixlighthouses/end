@@ -12,33 +12,35 @@
 
     <div class="flex items-center space-x-3">
       <!-- Add Todo Button -->
-      <button
-        data-controller="accordion-toggle"
-        data-action="click->accordion-toggle#toggle"
-        data-target="#new-todo-accordion"
-        class="
-          inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700
-          text-white font-medium rounded-lg shadow-sm transition-colors
-          duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500
-          focus:ring-offset-2
-        "
-      >
-        <svg
-          class="w-5 h-5 mr-2"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      <%#
+        <button
+          data-controller="accordion-toggle"
+          data-action="click->accordion-toggle#toggle"
+          data-target="#new-todo-accordion"
+          class="
+            inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700
+            text-white font-medium rounded-lg shadow-sm transition-colors
+            duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+            focus:ring-offset-2
+          "
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4"
-          ></path>
-        </svg>
+          <svg
+            class="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            ></path>
+          </svg>
 
-        <span>Add Todo</span>
-      </button>
+          <span>Add Todo</span>
+        </button>
+      %>
 
       <div class="hidden sm:flex items-center space-x-2">
         <span class="text-sm text-gray-500">Sort by:</span>
@@ -59,33 +61,37 @@
   </div>
 
   <!-- New Todo Accordion Panel -->
-  <div id="new-todo-accordion" class="hidden mb-6">
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-      <div class="p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-lg font-semibold text-gray-900">Create New Todo</h2>
+  <div id="new-todo-accordion" class="mb-6">
+    <div class="bg-white">
+      <div class="pt-6">
+        <%#
+          <div class="flex items-center justify-between mb-4">
+          <%# <h2 class="text-lg font-semibold text-gray-900">Create New Todo</h2>
+        %>
 
+        <%#
           <button
-            data-controller="accordion-toggle"
-            data-action="click->accordion-toggle#toggle"
-            data-target="#new-todo-accordion"
-            class="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              data-controller="accordion-toggle"
+              data-action="click->accordion-toggle#toggle"
+              data-target="#new-todo-accordion"
+              class="text-gray-400 hover:text-gray-600 transition-colors"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
-          </button>
-        </div>
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        %>
 
         <%= render "form_index", todo: @todo %>
       </div>
@@ -94,7 +100,8 @@
 
   <!-- Active Todos Section -->
   <div class="mb-8">
-    <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+    <%#
+      <h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
       <svg
         class="w-5 h-5 mr-2 text-blue-600"
         fill="none"
@@ -115,11 +122,17 @@
           rounded-full
         "
       >
-        <%= @incomplete_todos.count %>
+        <%= @incomplete_todos.count
+    %>
+    <%#
       </span>
-    </h2>
+      </h2>
+    %>
 
-    <div id="active-todos-container" class="bg-white shadow-sm rounded-lg overflow-hidden">
+    <div
+      id="active-todos-container"
+      class="bg-white shadow-sm rounded-lg overflow-hidden"
+    >
       <%= render "todos_list", todos: @incomplete_todos %>
     </div>
   </div>
